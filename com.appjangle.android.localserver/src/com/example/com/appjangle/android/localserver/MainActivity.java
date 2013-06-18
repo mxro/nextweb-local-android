@@ -1,19 +1,18 @@
 package com.example.com.appjangle.android.localserver;
 
-import com.appjangle.i110.data.GameData;
-import com.appjangle.i110.data.game1.LoadStrategicQuandrantQuestion;
-import com.appjangle.i110.data.game1.StrategicQuandrantQuestion;
-
 import io.nextweb.Node;
-import io.nextweb.Session;
-import io.nextweb.common.LocalServer;
 import io.nextweb.jre.Nextweb;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.appjangle.i110.data.GameData;
+import com.appjangle.i110.data.game1.LoadStrategicQuandrantQuestion;
+import com.appjangle.i110.data.game1.StrategicQuandrantQuestion;
 
 public class MainActivity extends Activity {
 
@@ -28,18 +27,18 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 
-            	LocalServer server = Nextweb.startServer(23211);
-            	Session session = Nextweb.createSession();
+            	Vision2Action.server = Nextweb.startServer(23211);
+            	Vision2Action.session = Nextweb.createSession();
             	
-            	Node db = session.seed("local").get();
+            	Node db = Vision2Action.session.seed("local").get();
             	
-            	GameData.writeCaseData(session, db);
+            	GameData.writeCaseData(Vision2Action.session, db);
 
             	TextView textView = (TextView) findViewById(R.id.textView1);
             	
             
             	StrategicQuandrantQuestion case1game1 = LoadStrategicQuandrantQuestion
-        				.getQuestionFromNode(session, session.node(db.uri() + "/c1"));
+        				.getQuestionFromNode(Vision2Action.session, Vision2Action.session.node(db.uri() + "/c1"));
 
             	String result = "";
         		result += "Loading data from "+db.uri()+"\n";
@@ -58,8 +57,11 @@ public class MainActivity extends Activity {
         		
         		textView.setText(result);
         		
-        		session.close().get();
-            	server.shutdown().get();
+        		 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+        		    
+        		 intent.putExtra("uri", db.uri());
+        		 
+        		    startActivity(intent);
             }
         });
     }
