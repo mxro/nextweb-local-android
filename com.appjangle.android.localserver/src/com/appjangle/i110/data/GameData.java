@@ -20,7 +20,20 @@ import io.nextweb.Session;
 
 public class GameData {
 
-	public static void writeCaseData(Session session, Node node) {
+	public static void writeFirstCaseData(Session session, Node node) {
+
+		Types t = new Types(session);
+
+		Query case1 = node.append("c1", "./c1");
+		Case1Starbucks.injectData(t, case1);
+
+		
+		
+		session.commit().get();
+
+	}
+	
+	public static void writeOtherCasesData(Session session, Node node) {
 
 		Types t = new Types(session);
 
@@ -65,5 +78,10 @@ public class GameData {
 		
 		session.commit().get();
 
+	}
+	
+	public static void writeCaseData(Session session, Node node) {
+		writeFirstCaseData(session, node);
+		writeOtherCasesData(session, node);
 	}
 }

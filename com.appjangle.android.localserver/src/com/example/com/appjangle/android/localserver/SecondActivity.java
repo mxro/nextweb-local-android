@@ -16,7 +16,7 @@ public class SecondActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_second);
 		
-		TextView textView = (TextView) findViewById(R.id.textView1);
+		TextView textView = (TextView) findViewById(R.id.secondActivityText);
 		
 		System.out.println(textView);
 		
@@ -29,7 +29,7 @@ public class SecondActivity extends Activity {
     	
     	
     	System.out.println(result);
-    	//textView.setText(result);
+    	textView.setText(result);
 		
 	}
 

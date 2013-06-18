@@ -30,9 +30,9 @@ public class MainActivity extends Activity {
             	Vision2Action.server = Nextweb.startServer(23211);
             	Vision2Action.session = Nextweb.createSession();
             	
-            	Node db = Vision2Action.session.seed("local").get();
+            	final Node db = Vision2Action.session.seed("local").get();
             	
-            	GameData.writeCaseData(Vision2Action.session, db);
+            	GameData.writeFirstCaseData(Vision2Action.session, db);
 
             	TextView textView = (TextView) findViewById(R.id.textView1);
             	
@@ -61,7 +61,18 @@ public class MainActivity extends Activity {
         		    
         		 intent.putExtra("uri", db.uri());
         		 
-        		    startActivity(intent);
+        		 startActivity(intent);
+        		 
+        		 new Thread() {
+
+					@Override
+					public void run() {
+						GameData.writeOtherCasesData(Vision2Action.session, db);
+					}
+        			
+        			 
+        			 
+        		 };
             }
         });
     }
